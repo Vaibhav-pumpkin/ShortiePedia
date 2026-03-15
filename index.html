@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shortiepedia</title>
+
+<style>
+.hideSticker{
+opacity:0;
+}
+.card,
+.favorites,
+.letter,
+.humanCard{
+position:relative;
+z-index:5;
+background:rgba(255,255,255,0.9);
+}
+@keyframes birthdayGlow{
+from{
+box-shadow:
+0 12px 25px rgba(0,0,0,0.25),
+0 0 20px rgba(255,105,180,0.6),
+0 0 40px rgba(255,105,180,0.3);
+}
+
+to{
+box-shadow:
+0 12px 25px rgba(0,0,0,0.25),
+0 0 35px rgba(255,105,180,0.9),
+0 0 70px rgba(255,105,180,0.5);
+}
+}
+#birthdayPhoto{
+margin-top:30px;
+}
+
+#birthdayPhoto img{
+width:320px;
+border-radius:20px;
+border:6px solid white;
+box-shadow:
+0 12px 25px rgba(0,0,0,0.25),
+0 0 25px rgba(255,105,180,0.7),
+0 0 50px rgba(255,105,180,0.4);
+cursor:pointer;
+animation:birthdayGlow 2s ease-in-out infinite alternate;
+}
+
+/* Favorite humans section */
+
+.humansContainer{
+display:flex;
+justify-content:center;
+gap:30px;
+flex-wrap:wrap;
+margin-top:40px;
+}
+
+.humanCard{
+background:white;
+padding:15px 15px 25px 15px;
+border-radius:18px;
+box-shadow:0 15px 30px rgba(0,0,0,0.18);
+text-align:center;
+width:320px;
+transition:transform 0.3s, box-shadow 0.3s;
+position:relative;
+}
+
+.humanCard:hover{
+transform:translateY(-6px);
+box-shadow:0 25px 45px rgba(0,0,0,0.25);
+}
+
+.humanCard h3{
+margin-top:12px;
+font-size:20px;
+color:#c2185b;
+font-weight:bold;
+letter-spacing:0.5px;
+}
+
+.humanCard img{
+width:100%;
+height:280px;
+object-fit:cover;
+border-radius:14px;
+cursor:pointer;
+}
+
+.humanCard:hover{
+transform:scale(1.05);
+}
+
+.humanCard h3{
+margin-top:10px;
+color:#6a1b9a;
+}
+.card h3{
+color:#6a1b9a;
+font-size:22px;
+font-weight:bold;
+}
+.card p{
+color:#444;
+font-size:16px;
+line-height:1.5;
+}
+.popup{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.9);
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+.popup img{
+max-width:90%;
+max-height:90%;
+border-radius:10px;
+}
+
+.smoke{
+position:absolute;
+width:12px;
+height:12px;
+background:rgba(200,200,200,0.7);
+border-radius:50%;
+animation:smokeRise 2s forwards;
+}
+
+@keyframes smokeRise{
+0%{opacity:0.8;transform:translateY(0)}
+100%{opacity:0;transform:translateY(-40px)}
+}
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#ff9ec4,#ffd6e7);
+text-align:center;
+overflow-x:hidden;
+}
+/* card entrance animation */
+
+.card{
+opacity:0;
+transform:translateY(40px);
+animation:cardReveal 0.8s ease forwards;
+}
+
+.card:nth-child(1){animation-delay:0.1s}
+.card:nth-child(2){animation-delay:0.3s}
+.card:nth-child(3){animation-delay:0.5s}
+.card:nth-child(4){animation-delay:0.7s}
+.card:nth-child(5){animation-delay:0.9s}
+
+@keyframes cardReveal{
+from{
+opacity:0;
+transform:translateY(40px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+/* hidden */
+.hidden{display:none}
+
+/* sections */
+
+section{
+padding:90px 20px;
+max-width:900px;
+margin:auto;
+}
+
+h2{
+color:#c2185b;
+font-size:34px;
+text-shadow:0 0 8px rgba(255,255,255,0.6);
+}
+
+/* PASSWORD */
+
+#passwordScreen{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#ff9ec4;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+}
+
+input{
+padding:10px;
+border-radius:10px;
+border:none;
+}
+
+/* CAKE */
+/* cake blush */
+
+.blush{
+width:14px;
+height:14px;
+background:#ff6fa3;
+border-radius:50%;
+position:absolute;
+top:18px;
+opacity:0;
+transition:0.5s;
+}
+
+.blush.left{
+left:-10px;
+}
+
+.blush.right{
+right:-10px;
+}
+
+.cake{
+position:relative;
+width:220px;
+margin:60px auto;
+}
+
+.plate{
+width:240px;
+height:25px;
+background:#9bd3e6;
+border-radius:50%;
+position:absolute;
+bottom:-10px;
+left:-10px;
+}
+
+.cake-layer{
+width:220px;
+height:120px;
+background:#f6d79c;
+border-radius:20px;
+position:relative;
+}
+
+.icing{
+width:220px;
+height:35px;
+background:#ff9ec4;
+border-radius:20px;
+position:absolute;
+top:-15px;
+}
+
+.face{
+position:absolute;
+top:45px;
+left:70px;
+}
+
+.eye{
+display:inline-block;
+width:10px;
+height:10px;
+background:black;
+border-radius:50%;
+margin:0 10px;
+}
+
+.smile{
+width:25px;
+height:10px;
+border-bottom:3px solid black;
+border-radius:0 0 20px 20px;
+margin:6px auto;
+transition:.4s;
+}
+
+.candle{
+width:10px;
+height:35px;
+background:#7ed6df;
+position:absolute;
+top:-40px;
+border-radius:4px;
+}
+
+.flame{
+width:12px;
+height:18px;
+background:orange;
+border-radius:50%;
+position:absolute;
+top:-18px;
+left:-1px;
+cursor:pointer;
+animation:flicker .2s infinite alternate;
+}
+
+@keyframes flicker{
+from{transform:scale(1)}
+to{transform:scale(1.1)}
+}
+
+/* STICKERS */
+
+.sticker{
+position:fixed;
+cursor:grab;
+z-index:2;
+}
+@keyframes floatSticker{
+0%{transform:translateY(0)}
+50%{transform:translateY(-6px)}
+100%{transform:translateY(0)}
+}
+
+.sticker{
+animation:floatSticker 3s ease-in-out infinite;
+}
+.sticker img{
+pointer-events:auto;
+width:100%;
+}
+
+#sticker1{width:110px;top:5%;left:1%}
+#sticker2{width:120px;top:35%;right:1%}
+#sticker3{width:130px;bottom:5%;left:1%}
+#sticker4{width:120px;bottom:25%;right:1%}
+#sticker5{width:110px;top:70%;left:1%}
+
+
+
+@keyframes drop{
+0%{transform:translateY(-200px);opacity:0}
+100%{transform:translateY(0);opacity:1}
+}
+
+.drop{animation:drop .6s}
+
+/* HEARTS */
+
+.hearts{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+}
+
+.heart{
+position:absolute;
+font-size:18px;
+animation:float 8s linear infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(100vh)}
+100%{transform:translateY(-10vh)}
+}
+
+/* CARDS */
+
+.card{
+display:flex;
+align-items:center;
+gap:20px;
+background:rgba(255,255,255,0.4);
+padding:20px;
+border-radius:20px;
+margin:25px auto;
+}
+
+.card img{
+width:140px;
+border-radius:10px;
+}
+
+.reverse{flex-direction:row-reverse}
+
+/* favorites */
+
+.favorites{
+background:rgba(255,255,255,0.4);
+padding:20px;
+border-radius:20px;
+max-width:400px;
+margin:auto;
+text-align:left;
+}
+
+/* letter card (RESTORED) */
+
+.letter{
+background:white;
+color:#444;
+max-width:500px;
+margin:40px auto;
+padding:30px;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
+ /* Favorites animation */
+
+.favorites{
+opacity:0;
+transform:translateY(40px);
+animation:cardReveal 0.8s ease forwards;
+}
+
+/* Why you're the BEST animation */
+
+.letter{
+opacity:0;
+transform:translateY(40px);
+animation:cardReveal 0.8s ease forwards;
+animation-delay:0.2s;
+}
+
+/* gift */
+
+.giftBox{
+width:120px;
+height:120px;
+margin:60px auto;
+position:relative;
+cursor:pointer;
+}
+
+.gift{
+width:120px;
+height:80px;
+background:#ff4d8d;
+position:absolute;
+bottom:0;
+border-radius:8px;
+}
+
+.lid{
+width:120px;
+height:40px;
+background:#ff2e88;
+position:absolute;
+top:0;
+border-radius:8px;
+transition:.8s;
+}
+
+.open .lid{
+transform:rotate(-120deg) translateY(-40px);
+}
+
+/* fireworks */
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+pointer-events:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="passwordScreen">
+
+<h2>🔓 Unlock to go to Shortiepedia</h2>
+
+<input type="password" id="passwordInput">
+
+<br><br>
+
+<label>
+<input type="checkbox" onclick="togglePassword()"> Show Password
+</label>
+
+<br><br>
+
+<button onclick="checkPassword()">Enter</button>
+
+<p id="wrongPassword"></p>
+
+</div>
+
+<div id="mainContent" class="hidden">
+
+<div class="hearts"></div>
+
+<canvas id="fireworks"></canvas>
+
+<div class="sticker hidden" id="sticker1"><img src="cat.png"></div>
+<div class="sticker hidden" id="sticker2"><img src="dog.png"></div>
+<div class="sticker hidden" id="sticker3"><img src="bear.png"></div>
+<div class="sticker hidden" id="sticker4"><img src="pumpkin.png"></div>
+<div class="sticker hidden" id="sticker5"><img src="specsbear.png"></div>
+
+<h1 style="font-size:64px;color:#ff0033;margin-top:30px;font-weight:bold;">
+Welcome to SHORTIEPEDIA
+</h1>
+<section>
+<h2>🎂 Blow the candles to go further</h2>
+
+<div class="cake">
+
+<div class="plate"></div>
+
+<div class="cake-layer">
+
+<div class="face">
+
+<span class="eye"></span>
+<span class="eye"></span>
+
+<div class="blush left"></div>
+<div class="blush right"></div>
+
+<div class="smile" id="smile"></div>
+
+</div>
+</div>
+
+<div class="icing"></div>
+
+<div class="candle" style="left:50px"><div class="flame" onclick="blow(this)"></div></div>
+<div class="candle" style="left:100px"><div class="flame" onclick="blow(this)"></div></div>
+<div class="candle" style="left:150px"><div class="flame" onclick="blow(this)"></div></div>
+
+</div>
+
+</section>
+
+<h1 id="birthdayMessage" class="hidden">
+🎃 HAPPPYYYYYY BIRTHDAYYYY KIDDDOO!! 🥹🥹
+</h1>
+
+<div id="birthdayPhoto" class="hidden">
+<img src="birthday.png" onclick="openPopup(this)">
+</div>
+
+<p id="stickerText" class="hidden">
+
+</p>
+<button id="journeyBtn" class="hidden" onclick="scrollToSection('journey')">
+See Shortie's Journey →
+</button>
+
+<!-- Journey hidden initially -->
+
+<section id="journey" class="hidden">
+
+<h2>🌸 Shortie's journey from princess to PRINCESS</h2>
+
+<div class="card">
+<img src="balak.png"
+onclick="openPopup(this)">
+<div>
+<h3>Balak Shortie</h3>
+<p>March 16th, 2008, Sunday; The whole world got super lucky that day cause a pretty lil baby was born in the Kalam clan. Everyone was superrrrrrrr happyyyyyy to have her in their life but the happiest were her mom and dad as they believed that she'll definitely keep making them proud forever 
+Amma kanna kuda Nanna koncham ekkuva happy unde as he knew that "Intiki oka Mahalakshmi and Lucky charm occhindhi" and he was right since she became the light of his life.</p>
+</div>
+</div>
+
+<div class="card reverse">
+<img src="kid.png"
+onclick="openPopup(this)">
+<div>
+<h3>Kid sized Shortie</h3>
+<p>Sahasra kept growing but she always just remained a kid, superr curious about her surroundings always and always irritating mom and dad for no reason
+When Sahasra got a little sister due to her parents' hardwork, she was soo excited that she got someone to play!!!</p>
+</div>
+</div>
+
+<div class="card">
+<img src="teen.png"
+onclick="openPopup(this)">
+<div>
+<h3>Teenage Shortie</h3>
+<p>Sahasra remained strong during her periods too and always handled the pain like a super strong champ. She started making more friends and this is the time when she developed feelings for a chutiya and no matter how much he or others around her kept breaking her heart, she remained the strongest and went through all this with a smile and didn't deal with things with hatred 
+This was when she showed everyone that she is capable of handling period pains and even stress given by bitches around her proving that she's STRONG physically and mentally.</p>
+</div>
+</div>
+
+<div class="card reverse">
+<img src="college.png"
+onclick="openPopup(this)">
+<div>
+<h3>Tenth waala Shortie</h3>
+<p>This was the year I met her, which changed my perspective on life. She was a kid since the start, cute, always grumpy and all. She had to face many rumours cause of me too which still makes me sad...
+Proposing her is the best decision I've ever taken since it gave me The BestFriend like her.</p>
+</div>
+</div>
+
+<div class="card">
+<img src="princess.png"
+onclick="openPopup(this)">
+<div>
+<h3>Princess Shortie(Present ruling)</h3>
+<p>Ma'am is continuing to maintain her Aura and she became even stronger now, strong enough to handle anything in her life. Studies lo and Cuteness lo kuda ma'am still has that crown intact with her and is proving why she's THE BEST each and everyday (tho she never agrees that she's the best)</p>
+</div>
+</div>
+
+<button onclick="scrollToSection('achievements')">
+See Shortie's Achievements →
+</button>
+
+</section>
+
+<section id="achievements" class="hidden">
+
+<h2>🏆 Shortie's Achievements</h2>
+
+<div class="card">
+<img src="a1.png"
+onclick="openPopup(this)">
+<div>
+<h3>10th aur 12th ke marks!!!</h3>
+<p>I remember ma'am telling me just before tenth results that 450+ osthe chaalu she'll be super happy ani but guess freaking what!!!! Ma'am srsly scored 465/500 and remained in top 12 from whole tenth!! Ma'am scored so well that her name was called on the stage during the annual day (which she ofc didn't attend but I witnessed that!!)Also 12th lo ma'am scored 977/1000 like...DAMNNNN
+</p>
+</div>
+</div>
+
+<div class="card reverse">
+<img src="a2.png"
+onclick="openPopup(this)">
+<div>
+<h3>Btech mein Shortie ka rule!!</h3>
+<p>Starting of the btech lone ma'am scored 9.1 cgpa which is superrrr goooddd!! yeah principal ma'am (her mom) wasn't satisfied enough but i'm sure that ma'am will make principal ma'am superrr proud starting from sem 2 till graduation.</p>
+</div>
+</div>
+
+<div class="card">
+<img src="a3.png"
+onclick="openPopup(this)">
+<div>
+<h3>Ma'am ke fans :)</h3>
+<p>I was her 27th follower on insta and now she freaking has 358!!!!!!! Damnnnnn!! Srsly i was lucky enough to  witness ma'am hit all milestones(as i was her 100th, 150th, 200th, 250th, 300th follower ;) ) I still remember the way we both got so excited when she hit 100 followers. Just waiting for the day where ma'am hits 1000 followers...
+</p>
+</div>
+</div>
+
+<button onclick="scrollToSection('favorites')">
+See Shortie's Favourites →
+</button>
+
+</section>
+
+<section id="favorites" class="hidden">
+
+<h2>🎬 Shortie's Favourites</h2>
+
+<div class="favorites">
+
+<ul>
+
+<li>Favourite K-Drama : Dynamite Kiss (ig??)</li>
+<li>Favourite C-Drama : Hidden Love (idhaithe i'm sure)</li>
+<li>Favourite Song    : All the songs in her playlist (But vaaste takes the special mention)</li>
+<li>Favourite Food    : Biryaniiii!!! (but ma'am doesnt care whats the food, she just eats whatever is present cause she loves foood!!)</li>
+<li>Favourite Hobby   : Eating, Sleeping, watching dramas, and...scolding pumpkin :(</li>
+
+</ul>
+<section id="humans">
+
+<h2>❤️ Shortie's Favorite Humans</h2>
+
+<div class="humansContainer">
+
+<div class="humanCard">
+<img src="nanna.png" onclick="openPopup(this)">
+<h3>Nanna</h3>
+</div>
+
+<div class="humanCard">
+<img src="amma.png" onclick="openPopup(this)">
+<h3>Amma</h3>
+</div>
+
+<div class="humanCard">
+<img src="chelli.png" onclick="openPopup(this)">
+<h3>Chelli</h3>
+</div>
+
+<div class="humanCard">
+<img src="rachith.png" onclick="openPopup(this)">
+<h3>Rachith</h3>
+</div>
+
+<div class="humanCard">
+<img src="aarush.png" onclick="openPopup(this)">
+<h3>Aarush</h3>
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+<button onclick="scrollToSection('best')">
+One Last Thing →
+</button>
+
+</section>
+
+<section id="best" class="hidden">
+
+<div class="letter">
+
+<h2>💌 Why you're the BEST Shortie</h2>
+
+<p>For me you're the best shortie, my bestestesttesttt friend and i'm super lucky to have you in my life. You kept choosing me over your anger tho you deep down knew that i'm gonna hurt you again...you kept giving me chances everytime and still treated me as your bestfriend always. You are the only person who has never judged me on anything and just loved me for what i am.Even tho I kept hurting you alot unintentionally too, most of the times you just kept all that inside you and bared with me because you didnt want me to get hurt </p>
+<p>Ippati varaku naa family thappa nuv icchinantha importance naak evaru ivvaledhu, the way you used to share all tiny details of your life would just make me forget all the nad things about my day. Yeah the terms between us are still...idk not so perfect ig but i wont force you to act like the shortie i had, just be yourslef and i'll hope that someday my shortie, who used to be super excited every single time she talked to me, will be back.</p>
+<p>You're the cutest ra and over exgerate chesthunna anukokapothe i just wanna let uk that you're the biggest reason for my happiness. If you asked the people i talk to daily you'd know how happy i get when shortie just shares some minute detail from her life or sends me a pic or just texts me randomly, it just lights up my whole mood</p>
+<p>I've already said this but i'm gonna say it again...I'm Sorry ma, for all the times i've hurt you, made you feel judged, stressed you out and made you cry, these all just made you turn cold towards me and ik that you dont see me as your Pumpkin anymore, but i promise, pumpkin's gonna change and be a good boy and is never gonna hurt ma'am again with his words or actions</p>
+
+</div>
+<div class="giftBox" onclick="openGift(this)">
+<p style="position:absolute;top:-30px;width:100%;font-weight:bold;color:#ff2e88;">
+Open this!!
+</p>
+<div class="lid"></div>
+<div class="gift"></div>
+</div>
+
+<h3 id="loveMsg" class="hidden" style="font-size:32px;color:#ff2e88;margin-top:20px;">
+I love you so much Kiddo ❤️
+- yours...Pumpkin 
+</h3>
+
+</section>
+
+</div>
+
+<script>
+
+const password="Shortie_Sahasra<3"
+
+function checkPassword(){
+
+if(passwordInput.value===password){
+
+passwordScreen.style.display="none"
+mainContent.classList.remove("hidden")
+
+}else{
+
+wrongPassword.innerText="Wrong password"
+
+}
+
+}
+
+function togglePassword(){
+passwordInput.type=passwordInput.type==="password"?"text":"password"
+}
+
+let blown=0
+
+function blow(flame){
+
+flame.style.display="none"
+let smoke=document.createElement("div")
+smoke.className="smoke"
+flame.parentElement.appendChild(smoke)
+blown++
+
+if(blown===3){
+
+birthdayMessage.classList.remove("hidden")
+birthdayPhoto.classList.remove("hidden")
+journeyBtn.classList.remove("hidden")
+stickerText.classList.remove("hidden")
+
+document.querySelectorAll(".blush").forEach(b=>b.style.opacity="1")
+
+smile.style.width="60px"
+smile.style.height="30px"
+smile.style.borderBottom="8px solid black"
+
+showStickers()
+startFireworks()
+
+}
+
+}
+
+function showStickers(){
+
+document.querySelectorAll(".sticker").forEach((s,i)=>{
+
+s.classList.remove("hidden")
+
+setTimeout(()=>{
+
+s.classList.add("drop")
+
+},i*120)
+
+})
+
+}
+
+/* drag + resize */
+
+document.querySelectorAll(".sticker").forEach(sticker=>{
+
+let offsetX,offsetY,isDragging=false
+
+sticker.addEventListener("mousedown",e=>{
+isDragging=true
+offsetX=e.clientX-sticker.offsetLeft
+offsetY=e.clientY-sticker.offsetTop
+})
+
+document.addEventListener("mousemove",e=>{
+if(!isDragging)return
+sticker.style.left=e.clientX-offsetX+"px"
+sticker.style.top=e.clientY-offsetY+"px"
+})
+
+document.addEventListener("mouseup",()=>isDragging=false)
+
+sticker.addEventListener("wheel",e=>{
+e.preventDefault()
+let size=sticker.offsetWidth
+size+=e.deltaY<0?10:-10
+sticker.style.width=size+"px"
+})
+
+})
+
+/* hearts */
+
+setInterval(()=>{
+
+let heart=document.createElement("div")
+heart.className="heart"
+heart.innerHTML="❤️"
+heart.style.left=Math.random()*100+"%"
+
+document.querySelector(".hearts").appendChild(heart)
+
+setTimeout(()=>heart.remove(),8000)
+
+},700)
+
+/* scroll unlock */
+
+function scrollToSection(id){
+
+const section=document.getElementById(id)
+
+section.classList.remove("hidden")
+
+section.scrollIntoView({
+behavior:"smooth"
+})
+
+}
+
+/* gift */
+
+function openGift(box){
+
+box.classList.add("open")
+loveMsg.classList.remove("hidden")
+startFireworks()
+
+}
+
+/* fireworks */
+
+const canvas=document.getElementById("fireworks")
+const ctx=canvas.getContext("2d")
+
+canvas.width=innerWidth
+canvas.height=innerHeight
+
+let particles=[]
+
+function startFireworks(){
+
+for(let i=0;i<300;i++){
+
+particles.push({
+
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+dx:(Math.random()-.5)*8,
+dy:(Math.random()-.5)*8,
+life:80
+
+})
+
+}
+
+}
+
+function animate(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height)
+
+particles.forEach((p,i)=>{
+
+p.x+=p.dx
+p.y+=p.dy
+p.life--
+
+ctx.beginPath()
+ctx.arc(p.x,p.y,3,0,Math.PI*2)
+ctx.fillStyle=`hsl(${Math.random()*360},100%,60%)`
+ctx.fill()
+
+if(p.life<=0)particles.splice(i,1)
+
+})
+
+requestAnimationFrame(animate)
+
+}
+
+animate()
+function openPopup(img){
+document.getElementById("imagePopup").style.display="flex";
+document.getElementById("popupImg").src=img.src;
+}
+
+function closePopup(){
+document.getElementById("imagePopup").style.display="none";
+}
+
+
+</script>
+<div id="imagePopup" class="popup" onclick="closePopup()">
+<img id="popupImg">
+</div>
+
+</body>
+</html>
